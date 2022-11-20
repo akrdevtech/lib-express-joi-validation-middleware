@@ -21,7 +21,8 @@ Validate `body`,`query`,`cookies`,`headers`&`params` at once using . Each of the
 ```js script
 import * as Joi from 'joi'
 import * as express from 'express'
-import { validateAll } from  '@akrdevtech/lib-express-joi-validation-middleware';
+import { RequestValidator } from '@akrdevtech/lib-express-joi-validation-middleware';
+const { validateAll } = new RequestValidator({ abortEarly: false }); // parameters of constructor is optional
 
 const app = express()
 
@@ -61,6 +62,8 @@ app.listen(port, () => {console.log(`⚡️ Service started : PORT → ${port}}`
 ```js script
 const Joi = require('joi')
 const app = require('express')()
+const { RequestValidator } = require('@akrdevtech/lib-express-joi-validation-middleware');
+
 const {
     validateAll,
     validateBody,
@@ -68,7 +71,7 @@ const {
     validateHeaders,
     validateQuery,
     validateParams
-} = require('@akrdevtech/lib-express-joi-validation-middleware');
+} = RequestValidator;
 
 const validateAllSchema: IValidateAllSchema = {
     body: Joi.object({

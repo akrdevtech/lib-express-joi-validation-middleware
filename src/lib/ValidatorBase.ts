@@ -18,22 +18,37 @@ export interface IValidateAllResponse {
   query?: Joi.ValidationError | undefined;
 }
 
-const commonValidatorOptions = { abortEarly: false }
+const commonValidatorOptions: Partial<Joi.ValidationOptions> = { abortEarly: false };
+
 /**
   * Function to get request body validation errors
   * @param validatorSchema Joi.ObjectSchema
+  * @param body Express request body
+  * @param joiValidationOptions Joi.ValidationOptions
   * @returns Joi.ValidationError | undefined
   */
-const getBodyValidationErrors = (validatorSchema: Joi.ObjectSchema, body): Joi.ValidationError | undefined => {
-  return validatorSchema.validate(body, commonValidatorOptions).error;
+const getBodyValidationErrors = (
+  validatorSchema: Joi.ObjectSchema,
+  body,
+  joiValidationOptions?: Partial<Joi.ValidationOptions>
+): Joi.ValidationError | undefined => {
+  return validatorSchema.validate(body, joiValidationOptions).error;
 }
 /**
  * Middleware to validate request body
  * @param validatorSchema Joi validatorSchema of the request body
+ * @param joiValidationOptions Joi.ValidationOptions
  */
-export const validateBody = (validatorSchema: Joi.ObjectSchema) => (req: Request, res: Response, next: NextFunction): void => {
+export const validateBody = (
+  validatorSchema: Joi.ObjectSchema,
+  joiValidationOptions?: Partial<Joi.ValidationOptions>
+) => (req: Request, _res: Response, next: NextFunction): void => {
   const { body } = req;
-  const validationErrors = getBodyValidationErrors(validatorSchema, body);
+  const validationErrors = getBodyValidationErrors(
+    validatorSchema,
+    body,
+    { ...commonValidatorOptions, ...joiValidationOptions }
+  );
   const err: Partial<IValidateAllResponse> = {
     body: validationErrors
   }
@@ -46,18 +61,32 @@ export const validateBody = (validatorSchema: Joi.ObjectSchema) => (req: Request
 /**
   * Function to get request cookies validation errors
   * @param validatorSchema Joi.ObjectSchema
+  * @param cookies Express request cookies
+  * @param joiValidationOptions Joi.ValidationOptions
   * @returns Joi.ValidationError | undefined
   */
-const getCookiesValidationErrors = (validatorSchema: Joi.ObjectSchema, cookies): Joi.ValidationError | undefined => {
-  return validatorSchema.validate(cookies, commonValidatorOptions).error;
+const getCookiesValidationErrors = (
+  validatorSchema: Joi.ObjectSchema,
+  cookies,
+  joiValidationOptions?: Partial<Joi.ValidationOptions>
+): Joi.ValidationError | undefined => {
+  return validatorSchema.validate(cookies, joiValidationOptions).error;
 }
 /**
  * Middleware to validate request cookies
  * @param validatorSchema Joi validatorSchema of the request cookies
+ * @param joiValidationOptions Joi.ValidationOptions
  */
-export const validateCookies = (validatorSchema: Joi.ObjectSchema) => (req: Request, res: Response, next: NextFunction): void => {
+export const validateCookies = (
+  validatorSchema: Joi.ObjectSchema,
+  joiValidationOptions?: Partial<Joi.ValidationOptions>
+) => (req: Request, _res: Response, next: NextFunction): void => {
   const { cookies } = req;
-  const validationErrors = getCookiesValidationErrors(validatorSchema, cookies);
+  const validationErrors = getCookiesValidationErrors(
+    validatorSchema,
+    cookies,
+    { ...commonValidatorOptions, ...joiValidationOptions }
+  );
   const err: Partial<IValidateAllResponse> = {
     cookies: validationErrors
   }
@@ -70,18 +99,32 @@ export const validateCookies = (validatorSchema: Joi.ObjectSchema) => (req: Requ
 /**
   * Function to get request headers validation errors
   * @param validatorSchema Joi.ObjectSchema
+  * @param headers Express request headers
+  * @param joiValidationOptions Joi.ValidationOptions
   * @returns Joi.ValidationError | undefined
   */
-const getHeadersValidationErrors = (validatorSchema: Joi.ObjectSchema, headers): Joi.ValidationError | undefined => {
-  return validatorSchema.validate(headers, commonValidatorOptions).error;
+const getHeadersValidationErrors = (
+  validatorSchema: Joi.ObjectSchema,
+  headers,
+  joiValidationOptions?: Partial<Joi.ValidationOptions>
+): Joi.ValidationError | undefined => {
+  return validatorSchema.validate(headers, joiValidationOptions).error;
 }
 /**
  * Middleware to validate request headers
  * @param validatorSchema Joi validatorSchema of the request headers
+ * @param joiValidationOptions Joi.ValidationOptions
  */
-export const validateHeaders = (validatorSchema: Joi.ObjectSchema) => (req: Request, res: Response, next: NextFunction): void => {
+export const validateHeaders = (
+  validatorSchema: Joi.ObjectSchema,
+  joiValidationOptions?: Partial<Joi.ValidationOptions>
+) => (req: Request, _res: Response, next: NextFunction): void => {
   const { headers } = req;
-  const validationErrors = getHeadersValidationErrors(validatorSchema, headers);
+  const validationErrors = getHeadersValidationErrors(
+    validatorSchema,
+    headers,
+    { ...commonValidatorOptions, ...joiValidationOptions }
+  );
   const err: Partial<IValidateAllResponse> = {
     headers: validationErrors
   }
@@ -94,18 +137,32 @@ export const validateHeaders = (validatorSchema: Joi.ObjectSchema) => (req: Requ
 /**
   * Function to get request params validation errors
   * @param validatorSchema Joi.ObjectSchema
+  * @param params Express request params
+  * @param joiValidationOptions Joi.ValidationOptions
   * @returns Joi.ValidationError | undefined
   */
-const getParamsValidationErrors = (validatorSchema: Joi.ObjectSchema, params): Joi.ValidationError | undefined => {
-  return validatorSchema.validate(params, commonValidatorOptions).error;
+const getParamsValidationErrors = (
+  validatorSchema: Joi.ObjectSchema,
+  params,
+  joiValidationOptions?: Partial<Joi.ValidationOptions>
+): Joi.ValidationError | undefined => {
+  return validatorSchema.validate(params, joiValidationOptions).error;
 }
 /**
  * Middleware to validate request params
  * @param validatorSchema Joi validatorSchema of the request params
+ * @param joiValidationOptions Joi.ValidationOptions
  */
-export const validateParams = (validatorSchema: Joi.ObjectSchema) => (req: Request, res: Response, next: NextFunction): void => {
+export const validateParams = (
+  validatorSchema: Joi.ObjectSchema,
+  joiValidationOptions?: Partial<Joi.ValidationOptions>
+) => (req: Request, _res: Response, next: NextFunction): void => {
   const { params } = req;
-  const validationErrors = getParamsValidationErrors(validatorSchema, params);
+  const validationErrors = getParamsValidationErrors(
+    validatorSchema,
+    params,
+    { ...commonValidatorOptions, ...joiValidationOptions }
+  );
   const err: Partial<IValidateAllResponse> = {
     params: validationErrors
   }
@@ -118,18 +175,32 @@ export const validateParams = (validatorSchema: Joi.ObjectSchema) => (req: Reque
 /**
   * Function to get request query validation errors
   * @param validatorSchema Joi.ObjectSchema
+  * @param query Express request query
+  * @param joiValidationOptions Joi.ValidationOptions
   * @returns Joi.ValidationError | undefined
   */
-const getQueryValidationErrors = (validatorSchema: Joi.ObjectSchema, query): Joi.ValidationError | undefined => {
-  return validatorSchema.validate(query, commonValidatorOptions).error;
+const getQueryValidationErrors = (
+  validatorSchema: Joi.ObjectSchema,
+  query,
+  joiValidationOptions?: Partial<Joi.ValidationOptions>
+): Joi.ValidationError | undefined => {
+  return validatorSchema.validate(query, joiValidationOptions).error;
 }
 /**
  * Middleware to validate request query
  * @param validatorSchema Joi validatorSchema of the request query
+ * @param joiValidationOptions Joi.ValidationOptions
  */
-export const validateQuery = (validatorSchema: Joi.ObjectSchema) => (req: Request, res: Response, next: NextFunction): void => {
+export const validateQuery = (
+  validatorSchema: Joi.ObjectSchema,
+  joiValidationOptions?: Partial<Joi.ValidationOptions>
+) => (req: Request, _res: Response, next: NextFunction): void => {
   const { query } = req;
-  const validationErrors = getQueryValidationErrors(validatorSchema, query);
+  const validationErrors = getQueryValidationErrors(
+    validatorSchema,
+    query,
+    { ...commonValidatorOptions, ...joiValidationOptions }
+  );
   const err: Partial<IValidateAllResponse> = {
     query: validationErrors
   }
@@ -140,18 +211,23 @@ export const validateQuery = (validatorSchema: Joi.ObjectSchema) => (req: Reques
 }
 
 /**
-   * Function to get request query validation errors
+   * Function to get request validation errors
    * @param validatorSchema Joi.ObjectSchema
    * @param request Express request
+   * @param joiValidationOptions Joi.ValidationOptions
    * @returns Joi.ValidationError | undefined
    */
-const getAllValidationErrors = (validatorSchema: IValidateAllSchema, request: Request): IValidateAllResponse | undefined => {
+const getAllValidationErrors = (
+  validatorSchema: IValidateAllSchema,
+  request: Request,
+  joiValidationOptions?: Partial<Joi.ValidationOptions>
+): IValidateAllResponse | undefined => {
   const validateAllResponse: IValidateAllResponse = {
-    body: validatorSchema.body?.validate(request.body, commonValidatorOptions).error,
-    cookies: validatorSchema.cookies?.validate(request.cookies, commonValidatorOptions).error,
-    headers: validatorSchema.headers?.validate(request.headers, commonValidatorOptions).error,
-    params: validatorSchema.params?.validate(request.params, commonValidatorOptions).error,
-    query: validatorSchema.query?.validate(request.query, commonValidatorOptions).error,
+    body: validatorSchema.body?.validate(request.body, joiValidationOptions).error,
+    cookies: validatorSchema.cookies?.validate(request.cookies, joiValidationOptions).error,
+    headers: validatorSchema.headers?.validate(request.headers, joiValidationOptions).error,
+    params: validatorSchema.params?.validate(request.params, joiValidationOptions).error,
+    query: validatorSchema.query?.validate(request.query, joiValidationOptions).error,
   }
 
   if (validateAllResponse.body
@@ -167,9 +243,17 @@ const getAllValidationErrors = (validatorSchema: IValidateAllSchema, request: Re
 /**
   * Function to validate request [body,query,params,headers,cookies]
   * @param validatorSchema IValidateAllSchema
+  * @param joiValidationOptions Joi.ValidationOptions
   */
-export const validateAll = (validatorSchema: IValidateAllSchema) => (req: Request, res: Response, next: NextFunction): void => {
-  const validateAllResponse: IValidateAllResponse | undefined = getAllValidationErrors(validatorSchema, req);
+export const validateAll = (
+  validatorSchema: IValidateAllSchema,
+  joiValidationOptions?: Partial<Joi.ValidationOptions>
+) => (req: Request, res: Response, next: NextFunction): void => {
+  const validateAllResponse: IValidateAllResponse | undefined = getAllValidationErrors(
+    validatorSchema,
+    req,
+    joiValidationOptions
+  );
   if (validateAllResponse) {
     return next(new RequestValidationMiddlewareError(validateAllResponse as Record<string, unknown>[]));
   }

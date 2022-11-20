@@ -6,9 +6,10 @@ Implementation of [Joi](https://www.npmjs.com/package/joi) middleware for Expres
 ## Quick Links
 
 -   [Example Usage (TypeScript)](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-ts)
--   [Example Usage (JavaScript](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-js)
+-   [Example Usage (JavaScript)](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-js)
 -   [Behaviours](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Behaviours)
     -   [Validation Ordering](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#validation-ordering)
+    - [Validation Options](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#validation-options)
 ## Usage
 ### Install
 ```sh
@@ -17,7 +18,7 @@ npm i @akrdevtech/lib-express-joi-validation-middleware
 ### [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-ts) Example Usage (TypeScript)
 
 Validate `body`,`query`,`cookies`,`headers`&`params` at once using . Each of these may be optional as well.
-```sh
+```js script
 import * as Joi from 'joi'
 import * as express from 'express'
 import { validateAll } from  '@akrdevtech/lib-express-joi-validation-middleware';
@@ -47,11 +48,17 @@ app.get('/', [
   (req, res) => { res.send(`Hello World!`) }
 ]);
 
+// with joi validation options
+app.get('/with-joi-validation-option', [
+  validateAll(validateAllSchema,{ allowUnknown:true }),
+  (req, res) => { res.send(`Hello World!`) }
+]);
+
 const port = 8000;
-app.listen(this.port, () => {console.log(`⚡️ Service started : PORT → ${port}});
+app.listen(port, () => {console.log(`⚡️ Service started : PORT → ${port}}`);
 ```
 ### [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-js) Example Usage (JavaScript)
-```sh
+```js script
 const Joi = require('joi')
 const app = require('express')()
 const {
@@ -101,7 +108,7 @@ app.get('/separately', [
 ]);
 
 const port = 8000;
-app.listen(this.port, () => {console.log(`⚡️ Service started : PORT → ${port}});
+app.listen(port, () => {console.log(`⚡️ Service started : PORT → ${port}}`);
 ```
 ##  [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Behaviours)Behaviours
 
@@ -111,7 +118,7 @@ app.listen(this.port, () => {console.log(`⚡️ Service started : PORT → ${po
 Validation can be performed in a specific order using standard express middleware behaviour. Pass the middleware in the desired order.
 
 Here's an example where the order is headers, body, query:
-```sh
+```js script
 const headerSchema = Joi.object({ someField: Joi.string().required() });
 const bodySchema = Joi.object({ someField: Joi.string().required() });
 const querySchema= Joi.object({ someField: Joi.string().required() });
@@ -120,6 +127,24 @@ route.get('/', [
   validator.headers(headerSchema),
   validator.body(bodySchema),
   validator.query(querySchema),
+  routeHandler
+]);
+```
+
+### [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#validation-options)Validation Options
+Validation options can be extented with [`Joi.ValidationOptions`](https://joi.dev/api/?v=17.7.0#anyvalidatevalue-options).
+
+Here’s an example where the order is headers, body, query:
+```js script
+const bodySchema = Joi.object({ someField: Joi.string().required() });
+
+const options = {
+	abortEarly: false,
+	allowUnknown: true,
+}
+
+route.get('/', [
+  validator.headers(headerSchema, options),
   routeHandler
 ]);
 ```

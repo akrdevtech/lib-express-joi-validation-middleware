@@ -1,6 +1,6 @@
 {
   "name": "@akrdevtech/lib-express-joi-validation-middleware",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Joi based validation middleware for ExpressJS",
   "main": "dist/index.js",
   "scripts": {

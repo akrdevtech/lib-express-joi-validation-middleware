@@ -5,8 +5,8 @@ Implementation of [Joi](https://www.npmjs.com/package/joi) middleware for Expres
 -   Specify the order in which request inputs are validated.
 ## Quick Links
 
--   [Example Usage (TypeScript)](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-ts)
--   [Example Usage (JavaScript)](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-js)
+-   [Example Usage (TypeScript)](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-typescript)
+-   [Example Usage (JavaScript)](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-javascript)
 -   [Behaviours](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Behaviours)
     -   [Validation Ordering](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#validation-ordering)
     - [Validation Options](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#validation-options)
@@ -15,7 +15,7 @@ Implementation of [Joi](https://www.npmjs.com/package/joi) middleware for Expres
 ```sh
 npm i @akrdevtech/lib-express-joi-validation-middleware
 ```
-### [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-ts) Example Usage (TypeScript)
+### [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-typescript) Example Usage (TypeScript)
 
 Validate `body`,`query`,`cookies`,`headers`&`params` at once using . Each of these may be optional as well.
 ```js script
@@ -57,7 +57,7 @@ app.get('/with-joi-validation-option', [
 const port = 8000;
 app.listen(port, () => {console.log(`⚡️ Service started : PORT → ${port}}`);
 ```
-### [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-js) Example Usage (JavaScript)
+### [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-javascript) Example Usage (JavaScript)
 ```js script
 const Joi = require('joi')
 const app = require('express')()
@@ -124,9 +124,9 @@ const bodySchema = Joi.object({ someField: Joi.string().required() });
 const querySchema= Joi.object({ someField: Joi.string().required() });
 
 route.get('/', [
-  validator.headers(headerSchema),
-  validator.body(bodySchema),
-  validator.query(querySchema),
+  validateHeaders(headerSchema),
+  validateBody(bodySchema),
+  validateQuery(querySchema),
   routeHandler
 ]);
 ```
@@ -139,12 +139,12 @@ Here’s an example where the order is headers, body, query:
 const bodySchema = Joi.object({ someField: Joi.string().required() });
 
 const options = {
-	abortEarly: false,
-	allowUnknown: true,
+  abortEarly: false,
+  allowUnknown: true,
 }
 
 route.get('/', [
-  validator.headers(headerSchema, options),
+  validateBody(bodySchema, options),
   routeHandler
 ]);
 ```

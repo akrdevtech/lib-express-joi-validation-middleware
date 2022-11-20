@@ -11,7 +11,7 @@ export abstract class BaseError extends Error {
     super(message);
 
     Object.setPrototypeOf(this, BaseError.prototype);
-
+    this.errors = [];
     this.source = errorSource;
     this.statusCode = HttpStatusCode.INTERNAL_SERVER_ERROR;
 

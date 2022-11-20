@@ -168,7 +168,7 @@ const getAllValidationErrors = (validatorSchema: IValidateAllSchema, request: Re
   * Function to validate request [body,query,params,headers,cookies]
   * @param validatorSchema IValidateAllSchema
   */
-export const validateAll = (validatorSchema: IValidateAllSchema) => (req: Request, res: Response, next: NextFunction) => {
+export const validateAll = (validatorSchema: IValidateAllSchema) => (req: Request, res: Response, next: NextFunction): void => {
   const validateAllResponse: IValidateAllResponse | undefined = getAllValidationErrors(validatorSchema, req);
   if (validateAllResponse) {
     return next(new RequestValidationMiddlewareError(validateAllResponse as Record<string, unknown>[]));

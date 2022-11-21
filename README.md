@@ -1,3 +1,4 @@
+
 # Express Joi Validation Middleware
 ## Description
 Implementation of [Joi](https://www.npmjs.com/package/joi) middleware for ExpressJS with TS.
@@ -15,7 +16,11 @@ Implementation of [Joi](https://www.npmjs.com/package/joi) middleware for Expres
 ```sh
 npm i @akrdevtech/lib-express-joi-validation-middleware
 ```
-### [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-typescript) Example Usage (TypeScript)
+Peer Dependency
+```sh
+npm i express
+```
+### [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-(TypeScript)) Example Usage (TypeScript)
 
 Validate `body`,`query`,`cookies`,`headers`&`params` at once using . Each of these may be optional as well.
 ```js script
@@ -58,7 +63,7 @@ app.get('/with-joi-validation-option', [
 const port = 8000;
 app.listen(port, () => {console.log(`⚡️ Service started : PORT → ${port}}`);
 ```
-### [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-javascript) Example Usage (JavaScript)
+### [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Example-Usage-(JavaScript)) Example Usage (JavaScript)
 ```js script
 const Joi = require('joi')
 const app = require('express')()
@@ -116,7 +121,7 @@ app.listen(port, () => {console.log(`⚡️ Service started : PORT → ${port}}`
 ##  [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Behaviours)Behaviours
 
 
-### [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#validation-ordering)Validation Ordering
+### [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Validation-Ordering)Validation Ordering
 
 Validation can be performed in a specific order using standard express middleware behaviour. Pass the middleware in the desired order.
 
@@ -134,7 +139,7 @@ route.get('/', [
 ]);
 ```
 
-### [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#validation-options)Validation Options
+### [](https://www.npmjs.com/package/@akrdevtech/lib-express-joi-validation-middleware#Validation-Options)Validation Options
 Validation options can be extented with [`Joi.ValidationOptions`](https://joi.dev/api/?v=17.7.0#anyvalidatevalue-options).
 
 Here’s an example where the order is headers, body, query:
